@@ -154,8 +154,8 @@ export default function CardPage() {
           )}
 
           <div className="bg-gray-800 rounded-lg p-4">
-            <h2 className="font-semibold mb-2 text-gray-300">Card Text</h2>
-            <p className="whitespace-pre-wrap text-gray-200">{card.description}</p>
+            <h2 className="font-semibold mb-2 text-gray-300">Effect / Card Text</h2>
+            <p className="whitespace-pre-wrap text-gray-200 font-[family-name:var(--font-card)] text-lg leading-relaxed">{card.description}</p>
           </div>
         </div>
       </div>

@@ -8,6 +8,8 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+  isLookingUp?: boolean;
+  cardLinks?: { name: string; id: number }[];
 }
 
 export function AiAssistant() {
@@ -15,11 +17,12 @@ export function AiAssistant() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [lookupTarget, setLookupTarget] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, lookupTarget]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,11 +38,19 @@ export function AiAssistant() {
     setInput('');
     setIsLoading(true);
 
+    const lookingFor = extractCardNames(input);
+    if (lookingFor.length > 0) {
+      setLookupTarget(lookingFor[0]);
+    }
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/ai/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage.content }),
+        body: JSON.stringify({ 
+          message: userMessage.content,
+          chatHistory: messages.filter(m => m.role !== 'looking-up').map(m => ({ role: m.role, content: m.content }))
+        }),
       });
 
       if (!response.ok) throw new Error('Failed to get response');
@@ -50,6 +61,7 @@ export function AiAssistant() {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: data.response,
+        cardLinks: data.cardLinks || [],
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -62,19 +74,38 @@ export function AiAssistant() {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      setLookupTarget(null);
     }
   };
 
-  const renderContent = (content: string) => {
-    const cardLinkRegex = /\[([^\]]+)\]/g;
-    const parts = content.split(cardLinkRegex);
+  function extractCardNames(text: string): string[] {
+    const matches = text.match(/"([^"]+)"|'([^']+)'|([A-Z][a-z]+(?: [A-Z][a-z]+)*)/g);
+    if (!matches) return [];
+    return matches.slice(0, 3).map(m => m.replace(/["']/g, ''));
+  }
+
+  const renderContent = (content: string, cardLinks?: { name: string; id: number }[]) => {
+    if (!cardLinks || cardLinks.length === 0) {
+      return content;
+    }
+    
+    // Create a regex that matches any of the card names
+    const escapedNames = cardLinks.map(card => ({
+      id: card.id,
+      name: card.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    }));
+    
+    const pattern = new RegExp(`(${escapedNames.map(n => n.name).join('|')})`, 'gi');
+    const parts = content.split(pattern);
     
     return parts.map((part, index) => {
-      if (index % 2 === 1) {
+      // Check if this part matches any card name (case-insensitive)
+      const matchedCard = cardLinks.find(c => c.name.toLowerCase() === part.toLowerCase());
+      if (matchedCard) {
         return (
           <Link
             key={index}
-            href={`/cards/search?name=${encodeURIComponent(part)}`}
+            href={`/cards/${matchedCard.id}`}
             className="text-blue-400 hover:text-blue-300 underline"
             target="_blank"
           >
@@ -105,8 +136,8 @@ export function AiAssistant() {
         <div className="fixed bottom-24 right-6 w-80 h-96 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl flex flex-col z-50">
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 rounded-t-xl bg-gradient-to-r from-pink-600 to-purple-700">
             <div className="flex items-center gap-2">
-              <span className="text-xl">🤖</span>
-              <span className="font-semibold text-white">Ai Assistant</span>
+              
+              <span className="font-semibold text-white">"Ai" Assistant</span>
             </div>
             <button
               onClick={() => setIsOpen(false)}
@@ -129,12 +160,16 @@ export function AiAssistant() {
                   message.role === 'user' ? 'ml-auto bg-blue-600' : 'mr-auto bg-gray-800'
                 } max-w-[85%] rounded-lg px-3 py-2 text-sm text-white`}
               >
-                {message.role === 'user' ? message.content : renderContent(message.content)}
+                {message.role === 'user' ? message.content : renderContent(message.content, message.cardLinks)}
               </div>
             ))}
             {isLoading && (
               <div className="mr-auto bg-gray-800 rounded-lg px-3 py-2 text-sm text-gray-400">
-                Thinking...
+                {lookupTarget ? (
+                  <span>Thinking...</span>
+                ) : (
+                  <span>Thinking...</span>
+                )}
               </div>
             )}
             <div ref={messagesEndRef} />

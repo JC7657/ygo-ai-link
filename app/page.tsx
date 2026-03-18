@@ -77,6 +77,7 @@ function HomeContent() {
   const limit = parseInt(searchParams.get('limit') || '20');
   const searchQuery = searchParams.get('search') || '';
   const searchType = (searchParams.get('searchType') || 'name') as SearchType;
+  const view = (searchParams.get('view') || 'grid') as 'grid' | 'list';
   const filters = parseFiltersFromParams(searchParams);
 
   const hasFilters = Object.values(filters).some(v => {
@@ -118,6 +119,10 @@ function HomeContent() {
     updateParams({ limit: newLimit, page: 1 });
   };
 
+  const handleViewChange = (newView: 'grid' | 'list') => {
+    updateParams({ view: newView });
+  };
+
   const handlePageChange = (newPage: number) => {
     updateParams({ page: newPage });
   };
@@ -143,7 +148,11 @@ function HomeContent() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-4">Yu-Gi-Oh! Card Database</h1>
+        <h1 className="text-3xl font-bold mb-2">Yu-Gi-Oh! Card Database</h1>
+        <p className="text-gray-400 mb-4 text-sm">
+          Welcome to my Yu-Gi-Oh! Database resource! Click the button on the bottom right to chat with Ai - your personal Duel Monsters assistant. Ask about cards, archetypes, mechanics or strategies. <br />
+          ** This AI assistant is in early development, so mistakes are expected. The model will learn and improve with every iteration. Thanks for understanding! **
+        </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center mb-4">
           <SearchBar onSearch={handleSearch} initialValue={searchQuery} initialType={searchType} />
           <div className="flex items-center gap-2">
@@ -159,6 +168,26 @@ function HomeContent() {
                 </option>
               ))}
             </select>
+            <div className="flex gap-1 ml-2">
+              <button
+                onClick={() => handleViewChange('grid')}
+                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
+                title="Grid view"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+              </button>
+              <button
+                onClick={() => handleViewChange('list')}
+                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
+                title="List view"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
         
@@ -186,7 +215,7 @@ function HomeContent() {
           <p className="text-gray-400 mb-4">
             Showing {showingFrom}-{showingTo} of {totalCards} cards
           </p>
-          <CardGrid cards={data.cards} />
+          <CardGrid cards={data.cards} view={view} />
           
           {totalPages > 1 && (
             <div className="flex flex-col items-center gap-4 mt-8">

@@ -35,11 +35,77 @@ export function CardImage({ card, size = 'small', priority = false }: CardImageP
   );
 }
 
-interface CardGridProps {
-  cards: Card[];
+interface CardListItemProps {
+  card: Card;
 }
 
-export function CardGrid({ cards }: CardGridProps) {
+export function CardListItem({ card }: CardListItemProps) {
+  const imageUrl = getCardImageUrl(card.id, 'small');
+
+  return (
+    <Link 
+      href={`/cards/${card.id}`} 
+      className="flex gap-4 p-3 bg-gray-800/50 hover:bg-gray-800 rounded-lg transition-colors"
+    >
+      <div className="relative w-24 h-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-800">
+        <Image
+          src={imageUrl}
+          alt={card.name}
+          fill
+          sizes="96px"
+          className="object-cover"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+          }}
+        />
+      </div>
+      
+      <div className="flex-1 min-w-0">
+        <h3 className="font-semibold text-white truncate">{card.name}</h3>
+        
+        <div className="flex flex-wrap gap-2 mt-1 text-sm text-gray-400">
+          <span>{card.type}</span>
+          {card.attribute && <span>{card.attribute}</span>}
+          {card.level && <span>LV {card.level}</span>}
+          {card.atk !== null && card.atk !== undefined && (
+            <span>{card.atk} ATK {card.def !== null && card.def !== undefined && `/${card.def} DEF`}</span>
+          )}
+          {card.linkval && <span>LINK-{card.linkval}</span>}
+        </div>
+        
+        {card.archetype && (
+          <p className="text-sm text-purple-400 mt-1">{card.archetype}</p>
+        )}
+        
+        {card.description && (
+          <p className="text-sm text-gray-300 mt-2 line-clamp-2">
+            {card.description.replace(/\n/g, ' ')}
+          </p>
+        )}
+      </div>
+    </Link>
+  );
+}
+
+type ViewMode = 'grid' | 'list';
+
+interface CardGridProps {
+  cards: Card[];
+  view?: ViewMode;
+}
+
+export function CardGrid({ cards, view = 'grid' }: CardGridProps) {
+  if (view === 'list') {
+    return (
+      <div className="flex flex-col gap-2">
+        {cards.map((card) => (
+          <CardListItem key={card.id} card={card} />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
       {cards.map((card) => (
