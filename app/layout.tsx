@@ -11,7 +11,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "YGO AiGNIS",
+  title: "YGO Ignis Project",
   description: "Yu-Gi-Oh! card database with AI assistant",
 };
 
@@ -28,7 +28,7 @@ export default function RootLayout({
             <div className="container mx-auto px-4 py-4">
               <nav className="flex items-center justify-between">
                 <a href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                  YGO AIGNIS
+                  YGO Ignis Project
                 </a>
               </nav>
             </div>

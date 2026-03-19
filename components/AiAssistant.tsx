@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect, FormEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ArrowsPointingInIcon, ArrowsPointingOutIcon, XMarkIcon, TrashIcon, MinusIcon } from '@heroicons/react/24/outline';
+
 
 interface Message {
   id: string;
@@ -12,17 +14,117 @@ interface Message {
   cardLinks?: { name: string; id: number }[];
 }
 
+const STORAGE_KEY = 'ai-chat-history';
+
+const SUGGESTED_QUESTIONS = [
+  "What is a handtrap?",
+  "Explain the Branded archetype",
+  "What does Small World do?",
+  "How does Nibiru work?",
+  "What is an endboard?",
+  "Tell me about Tenpai",
+  "What is an engine in Yu-Gi-Oh?",
+  "Explain Synchro Summoning",
+  "What's the current meta?",
+  "What are board breakers?",
+  "Tell me about Kashtira",
+  "How does Maxx C work?",
+  "What is a floodgate?",
+  "Explain the Purrely archetype",
+  "What's the difference between going first and going second?",
+];
+
+function getRandomQuestions(count: number): string[] {
+  const shuffled = [...SUGGESTED_QUESTIONS].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
+
 export function AiAssistant() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [lookupTarget, setLookupTarget] = useState<string | null>(null);
+  const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
+  const [suggestedQuestions, setSuggestedQuestions] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollPositionRef = useRef(0);
+  const preserveScrollRef = useRef(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const trackingScrollRef = useRef(true);
+  const expandedMessagesVersionRef = useRef(0);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, lookupTarget]);
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load chat history');
+      }
+    } else {
+      setSuggestedQuestions(getRandomQuestions(4));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    if (preserveScrollRef.current) {
+      setTimeout(() => {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = scrollPositionRef.current;
+        }
+        preserveScrollRef.current = false;
+        trackingScrollRef.current = true;
+      }, 50);
+    } else if (messages.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [messages, lookupTarget, isExpanded, isOpen, expandedMessagesVersionRef.current]);
+
+  const clearChat = () => {
+    setMessages([]);
+    setExpandedMessages(new Set());
+    setSuggestedQuestions(getRandomQuestions(4));
+    localStorage.removeItem(STORAGE_KEY);
+  };
+
+  const sendQuestion = (question: string) => {
+    setInput(question);
+    const form = document.getElementById('ai-chat-form') as HTMLFormElement;
+    if (form) {
+      form.requestSubmit();
+    }
+  };
+
+  const longMessageThreshold = 400;
+  const isLongContent = (content: string) => content.length > longMessageThreshold;
+
+  const toggleMessageExpand = (messageId: string) => {
+    if (chatContainerRef.current) {
+      scrollPositionRef.current = chatContainerRef.current.scrollTop;
+    }
+    trackingScrollRef.current = false;
+    preserveScrollRef.current = true;
+    expandedMessagesVersionRef.current += 1;
+    setExpandedMessages(prev => {
+      const next = new Set(prev);
+      if (next.has(messageId)) {
+        next.delete(messageId);
+      } else {
+        next.add(messageId);
+      }
+      return next;
+    });
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -49,7 +151,7 @@ export function AiAssistant() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           message: userMessage.content,
-          chatHistory: messages.filter(m => m.role !== 'looking-up').map(m => ({ role: m.role, content: m.content }))
+          chatHistory: messages.filter(m => !m.isLookingUp).map(m => ({ role: m.role, content: m.content }))
         }),
       });
 
@@ -89,7 +191,6 @@ export function AiAssistant() {
       return content;
     }
     
-    // Create a regex that matches any of the card names
     const escapedNames = cardLinks.map(card => ({
       id: card.id,
       name: card.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -99,7 +200,6 @@ export function AiAssistant() {
     const parts = content.split(pattern);
     
     return parts.map((part, index) => {
-      // Check if this part matches any card name (case-insensitive)
       const matchedCard = cardLinks.find(c => c.name.toLowerCase() === part.toLowerCase());
       if (matchedCard) {
         return (
@@ -117,6 +217,56 @@ export function AiAssistant() {
     });
   };
 
+  const ChatWindow = () => (
+    <div 
+      ref={chatContainerRef}
+      className="flex-1 overflow-y-auto p-4 space-y-3"
+      onScroll={(e) => {
+        if (trackingScrollRef.current) {
+          scrollPositionRef.current = e.currentTarget.scrollTop;
+        }
+      }}
+    >
+      {messages.length === 0 && (
+        <p className="text-gray-400 text-center text-sm">
+          Hey! I&apos;m Dark Ignis, but you can call me Ai! Got a question about a specific card or strategy? I can help!
+        </p>
+      )}
+      {messages.map((message) => (
+        <div key={message.id} className="space-y-1">
+          <div
+            className={`${
+              message.role === 'user' ? 'ml-auto bg-blue-600' : 'mr-auto bg-gray-800'
+            } max-w-[85%] rounded-lg px-3 py-2 text-sm text-white ${
+              message.role === 'assistant' && isLongContent(message.content) && !isExpanded && !expandedMessages.has(message.id)
+                ? 'line-clamp-6'
+                : ''
+            }`}
+          >
+            {message.role === 'user' ? message.content : renderContent(message.content, message.cardLinks)}
+          </div>
+          {message.role === 'assistant' && isLongContent(message.content) && !isExpanded && (
+            <button
+              onClick={() => toggleMessageExpand(message.id)}
+              className="text-xs text-purple-400 hover:text-purple-300 ml-2"
+            >
+              {expandedMessages.has(message.id) ? 'Show less' : 'Show more'}
+            </button>
+          )}
+        </div>
+      ))}
+      {isLoading && (
+        <div className="mr-auto bg-gray-800 rounded-lg px-3 py-2 text-sm text-gray-400">
+          Thinking...
+        </div>
+      )}
+      <div ref={messagesEndRef} />
+    </div>
+  );
+
+  const baseWidth = isExpanded ? 'w-[600px]' : 'w-80';
+  const baseHeight = isExpanded ? 'h-[700px]' : 'h-96';
+
   return (
     <>
       <button
@@ -132,50 +282,75 @@ export function AiAssistant() {
         />
       </button>
 
-      {isOpen && (
-        <div className="fixed bottom-24 right-6 w-80 h-96 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl flex flex-col z-50">
+      <div
+        className={`fixed bottom-24 right-6 ${baseWidth} ${baseHeight} bg-gray-900 border border-gray-700 rounded-xl shadow-2xl flex flex-col z-50 transition-all duration-300 ease-out ${
+          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+      >
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 rounded-t-xl bg-gradient-to-r from-pink-600 to-purple-700">
             <div className="flex items-center gap-2">
-              
               <span className="font-semibold text-white">"Ai" Assistant</span>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-gray-300 hover:text-white"
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {messages.length === 0 && (
-              <p className="text-gray-400 text-center text-sm">
-                Hey! I&apos;m Dark Ignis, but you can call me Ignis! Got a question about a specific card or strategy? I can help!
-              </p>
-            )}
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`${
-                  message.role === 'user' ? 'ml-auto bg-blue-600' : 'mr-auto bg-gray-800'
-                } max-w-[85%] rounded-lg px-3 py-2 text-sm text-white`}
+            <div className="flex items-center gap-2">
+              {messages.length > 0 && (
+                <button
+                  onClick={clearChat}
+                  className="text-gray-300 hover:text-white"
+                  title="Clear chat"
+                >
+                  <TrashIcon className="w-5 h-5" />
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  if (chatContainerRef.current) {
+                    scrollPositionRef.current = chatContainerRef.current.scrollTop;
+                  }
+                  trackingScrollRef.current = false;
+                  preserveScrollRef.current = true;
+                  setIsExpanded(!isExpanded);
+                }}
+                className="text-gray-300 hover:text-white"
+                title={isExpanded ? 'Minimize' : 'Expand'}
               >
-                {message.role === 'user' ? message.content : renderContent(message.content, message.cardLinks)}
-              </div>
-            ))}
-            {isLoading && (
-              <div className="mr-auto bg-gray-800 rounded-lg px-3 py-2 text-sm text-gray-400">
-                {lookupTarget ? (
-                  <span>Thinking...</span>
+                {isExpanded ? (
+                  <ArrowsPointingInIcon className="w-5 h-5" />
                 ) : (
-                  <span>Thinking...</span>
+                  <ArrowsPointingOutIcon className="w-5 h-5" />
                 )}
-              </div>
-            )}
-            <div ref={messagesEndRef} />
+              </button>
+              <button
+                onClick={() => { 
+                  setIsOpen(false); 
+                  setIsExpanded(false); 
+                }}
+                className="text-gray-300 hover:text-white"
+              >
+                <MinusIcon className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-3 border-t border-gray-700">
+          <ChatWindow />
+
+          {isExpanded && suggestedQuestions.length > 0 && messages.length === 0 && (
+            <div className="px-3 pb-2 border-t border-gray-800">
+              <p className="text-xs text-gray-500 mb-2">Try asking about:</p>
+              <div className="flex flex-wrap gap-2">
+                {suggestedQuestions.map((q, i) => (
+                  <button
+                    key={i}
+                    onClick={() => sendQuestion(q)}
+                    className="text-xs px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-full border border-gray-700 hover:border-purple-500 transition-colors"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <form id="ai-chat-form" onSubmit={handleSubmit} className="p-3 border-t border-gray-700">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -195,7 +370,6 @@ export function AiAssistant() {
             </div>
           </form>
         </div>
-      )}
     </>
   );
 }
