@@ -58,7 +58,7 @@ export default function CardPage() {
           <h1 className="text-3xl font-bold mb-2">{card.name}</h1>
           
           <div className="flex flex-wrap gap-2 mb-4">
-            <span className="px-3 py-1 bg-blue-600 rounded-full text-sm">
+            <span className="px-3 py-1 bg-orange-600 rounded-full text-sm">
               {card.type}
             </span>
             {card.race && (

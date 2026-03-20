@@ -16,7 +16,7 @@ function OperatorToggle({ value, onChange }: { value?: 'and' | 'or', onChange: (
         onClick={() => onChange('or')}
         className={`px-2 py-0.5 text-xs rounded transition-colors ${
           (value === 'or' || !value)
-            ? 'bg-blue-600 text-white'
+            ? 'bg-amber-600 text-white'
             : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
         }`}
       >
@@ -26,7 +26,7 @@ function OperatorToggle({ value, onChange }: { value?: 'and' | 'or', onChange: (
         onClick={() => onChange('and')}
         className={`px-2 py-0.5 text-xs rounded transition-colors ${
           value === 'and'
-            ? 'bg-blue-600 text-white'
+            ? 'bg-amber-600 text-white'
             : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
         }`}
       >
@@ -55,7 +55,7 @@ function ArrayFilterSection({
 }) {
   const colorClasses = {
     blue: {
-      selected: 'bg-blue-600 text-white',
+      selected: 'bg-amber-600 text-white',
       unselected: 'bg-gray-700 text-gray-300 hover:bg-gray-600'
     },
     purple: {
@@ -128,7 +128,7 @@ export function FilterPanel({ filters, onFiltersChange, onClear }: FilterPanelPr
         </svg>
         <span>Advanced Filters</span>
         {activeFilterCount > 0 && (
-          <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
+          <span className="bg-orange-600 text-white text-xs px-2 py-0.5 rounded-full">
             {activeFilterCount}
           </span>
         )}

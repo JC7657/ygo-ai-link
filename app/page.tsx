@@ -160,7 +160,7 @@ function HomeContent() {
             <select
               value={limit}
               onChange={(e) => handleLimitChange(Number(e.target.value))}
-              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
             >
               {LIMIT_OPTIONS.map((option) => (
                 <option key={option} value={option}>
@@ -171,7 +171,7 @@ function HomeContent() {
             <div className="flex gap-1 ml-2">
               <button
                 onClick={() => handleViewChange('grid')}
-                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-amber-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
                 title="Grid view"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -180,7 +180,7 @@ function HomeContent() {
               </button>
               <button
                 onClick={() => handleViewChange('list')}
-                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-amber-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
                 title="List view"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -253,7 +253,7 @@ function HomeContent() {
                       onClick={() => handlePageChange(pageNum)}
                       className={`px-3 py-1.5 rounded-lg transition-colors ${
                         page === pageNum
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-amber-600 text-white'
                           : 'bg-gray-800 hover:bg-gray-700'
                       }`}
                     >

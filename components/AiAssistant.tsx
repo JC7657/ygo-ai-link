@@ -206,7 +206,7 @@ export function AiAssistant() {
           <Link
             key={index}
             href={`/cards/${matchedCard.id}`}
-            className="text-blue-400 hover:text-blue-300 underline"
+            className="text-amber-400 hover:text-amber-300 underline"
             target="_blank"
           >
             {part}
@@ -236,7 +236,7 @@ export function AiAssistant() {
         <div key={message.id} className="space-y-1">
           <div
             className={`${
-              message.role === 'user' ? 'ml-auto bg-blue-600' : 'mr-auto bg-gray-800'
+              message.role === 'user' ? 'ml-auto bg-amber-600' : 'mr-auto bg-gray-800'
             } max-w-[85%] rounded-lg px-3 py-2 text-sm text-white ${
               message.role === 'assistant' && isLongContent(message.content) && !isExpanded && !expandedMessages.has(message.id)
                 ? 'line-clamp-6'

@@ -41,7 +41,7 @@ export default function RootLayout({
               </nav>
             </div>
           </header>
-          <main className="container mx-auto px-4 py-8">
+          <main className="max-w-6xl mx-auto px-6 py-8">
             {children}
           </main>
           <AiAssistant />
