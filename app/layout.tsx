@@ -25,9 +25,9 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.className} ${spaceGrotesk.variable} min-h-screen`}>
         <Providers>
-          <header className="sticky top-0 z-30 bg-gradient-to-r from-purple-950 via-purple-900 to-purple-950 border-b border-purple-800/50 shadow-lg shadow-purple-900/20">
-            <div className="container mx-auto px-4 py-4">
-              <nav className="flex items-center justify-center">
+          <header className="bg-gradient-to-r from-purple-950 via-purple-900 to-purple-950 border-b border-purple-800/50 shadow-lg shadow-purple-900/20">
+            <div className="max-w-6xl mx-auto px-6 py-4">
+              <nav className="flex items-center">
                 <a href="/" className="transition-transform hover:scale-105 duration-300">
                   <Image
                     src="/assets/Ai_Link_logo.png"
@@ -41,7 +41,7 @@ export default function RootLayout({
               </nav>
             </div>
           </header>
-          <main className="max-w-6xl mx-auto px-6 py-8">
+          <main className="max-w-6xl mt-6 mx-auto px-6 pt-6 pb-8 bg-[#322947] min-h-[calc(100vh-100px)] rounded-t-2xl">
             {children}
           </main>
           <AiAssistant />

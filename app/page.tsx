@@ -148,11 +148,6 @@ function HomeContent() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Yu-Gi-Oh! Card Database</h1>
-        <p className="text-gray-400 mb-4 text-sm">
-          Welcome to my Yu-Gi-Oh! Database resource! Click the button on the bottom right to chat with Ai - your personal Duel Monsters assistant. Ask about cards, archetypes, mechanics or strategies. <br />
-          ** This AI assistant is in early development, so mistakes are expected. The model will learn and improve with every iteration. Thanks for understanding! **
-        </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center mb-4">
           <SearchBar onSearch={handleSearch} initialValue={searchQuery} initialType={searchType} />
           <div className="flex items-center gap-2">
@@ -160,7 +155,7 @@ function HomeContent() {
             <select
               value={limit}
               onChange={(e) => handleLimitChange(Number(e.target.value))}
-              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#9b2cb7]"
             >
               {LIMIT_OPTIONS.map((option) => (
                 <option key={option} value={option}>
@@ -171,7 +166,7 @@ function HomeContent() {
             <div className="flex gap-1 ml-2">
               <button
                 onClick={() => handleViewChange('grid')}
-                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-amber-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-[#9b2cb7] text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
                 title="Grid view"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -180,7 +175,7 @@ function HomeContent() {
               </button>
               <button
                 onClick={() => handleViewChange('list')}
-                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-amber-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-[#9b2cb7] text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
                 title="List view"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -253,7 +248,7 @@ function HomeContent() {
                       onClick={() => handlePageChange(pageNum)}
                       className={`px-3 py-1.5 rounded-lg transition-colors ${
                         page === pageNum
-                          ? 'bg-amber-600 text-white'
+                          ? 'bg-[#9b2cb7] text-white'
                           : 'bg-gray-800 hover:bg-gray-700'
                       }`}
                     >
