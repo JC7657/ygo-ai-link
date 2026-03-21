@@ -58,11 +58,11 @@ export default function CardPage() {
           <h1 className="text-3xl font-bold mb-2">{card.name}</h1>
           
           <div className="flex flex-wrap gap-2 mb-4">
-            <span className="px-3 py-1 bg-[#9b2cb7] rounded-full text-sm">
+            <span className="px-3 py-1 bg-primary rounded-full text-sm">
               {card.type}
             </span>
             {card.race && (
-              <span className="px-3 py-1 bg-gray-700 rounded-full text-sm">
+              <span className="px-3 py-1 bg-surface/70 rounded-full text-sm">
                 {card.race}
               </span>
             )}
@@ -76,7 +76,7 @@ export default function CardPage() {
           {card.typeline && card.typeline.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {card.typeline.map((type, index) => (
-                <span key={index} className="px-3 py-1 bg-purple-600 rounded-full text-sm">
+                <span key={index} className="px-3 py-1 bg-primary rounded-full text-sm">
                   {type}
                 </span>
               ))}
@@ -153,8 +153,8 @@ export default function CardPage() {
             </div>
           )}
 
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h2 className="font-semibold mb-2 text-gray-300">Effect / Card Text</h2>
+          <div className="bg-surface rounded-lg p-4">
+            <h2 className="font-semibold mb-2 text-text-primary">Effect / Card Text</h2>
             <p className="whitespace-pre-wrap text-gray-200 font-[family-name:var(--font-card)] text-lg leading-relaxed">{card.description}</p>
           </div>
         </div>

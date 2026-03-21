@@ -155,7 +155,7 @@ function HomeContent() {
             <select
               value={limit}
               onChange={(e) => handleLimitChange(Number(e.target.value))}
-              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#9b2cb7]"
+              className="px-3 py-2 bg-input-bg border border-border rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {LIMIT_OPTIONS.map((option) => (
                 <option key={option} value={option}>
@@ -166,7 +166,7 @@ function HomeContent() {
             <div className="flex gap-1 ml-2">
               <button
                 onClick={() => handleViewChange('grid')}
-                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-[#9b2cb7] text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-primary text-white' : 'bg-surface text-text-muted hover:text-white'}`}
                 title="Grid view"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -175,7 +175,7 @@ function HomeContent() {
               </button>
               <button
                 onClick={() => handleViewChange('list')}
-                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-[#9b2cb7] text-white' : 'bg-gray-800 text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-primary text-white' : 'bg-surface text-text-muted hover:text-white'}`}
                 title="List view"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -248,8 +248,8 @@ function HomeContent() {
                       onClick={() => handlePageChange(pageNum)}
                       className={`px-3 py-1.5 rounded-lg transition-colors ${
                         page === pageNum
-                          ? 'bg-[#9b2cb7] text-white'
-                          : 'bg-gray-800 hover:bg-gray-700'
+                          ? 'bg-primary text-white'
+                          : 'bg-surface hover:bg-surface/80'
                       }`}
                     >
                       {pageNum}

@@ -206,7 +206,7 @@ export function AiAssistant() {
           <Link
             key={index}
             href={`/cards/${matchedCard.id}`}
-            className="text-[#9b2cb7] hover:text-purple-400 underline"
+            className="text-primary hover:text-highlight underline"
             target="_blank"
           >
             {part}
@@ -236,7 +236,7 @@ export function AiAssistant() {
         <div key={message.id} className="space-y-1">
           <div
             className={`${
-              message.role === 'user' ? 'ml-auto bg-[#9b2cb7]' : 'mr-auto bg-gray-800'
+              message.role === 'user' ? 'ml-auto bg-primary' : 'mr-auto bg-surface'
             } max-w-[85%] rounded-lg px-3 py-2 text-sm text-white ${
               message.role === 'assistant' && isLongContent(message.content) && !isExpanded && !expandedMessages.has(message.id)
                 ? 'line-clamp-6'
@@ -248,7 +248,7 @@ export function AiAssistant() {
           {message.role === 'assistant' && isLongContent(message.content) && !isExpanded && (
             <button
               onClick={() => toggleMessageExpand(message.id)}
-              className="text-xs text-purple-400 hover:text-purple-300 ml-2"
+              className="text-xs text-highlight hover:text-highlight/80 ml-2"
             >
               {expandedMessages.has(message.id) ? 'Show less' : 'Show more'}
             </button>
@@ -256,7 +256,7 @@ export function AiAssistant() {
         </div>
       ))}
       {isLoading && (
-        <div className="mr-auto bg-gray-800 rounded-lg px-3 py-2 text-sm text-gray-400">
+        <div className="mr-auto bg-surface rounded-lg px-3 py-2 text-sm text-text-muted">
           Thinking...
         </div>
       )}
@@ -283,11 +283,11 @@ export function AiAssistant() {
       </button>
 
       <div
-        className={`fixed bottom-24 right-6 ${baseWidth} ${baseHeight} bg-gray-900 border border-gray-700 rounded-xl shadow-2xl flex flex-col z-50 transition-all duration-300 ease-out ${
+        className={`fixed bottom-24 right-6 ${baseWidth} ${baseHeight} bg-surface border border-border rounded-xl shadow-2xl flex flex-col z-50 transition-all duration-300 ease-out ${
           isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
         }`}
       >
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 rounded-t-xl bg-gradient-to-r from-pink-600 to-purple-700">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border rounded-t-xl bg-gradient-to-r from-pink-600 to-purple-700">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-white">"Ai" Assistant</span>
             </div>
@@ -295,7 +295,7 @@ export function AiAssistant() {
               {messages.length > 0 && (
                 <button
                   onClick={clearChat}
-                  className="text-gray-300 hover:text-white"
+                  className="text-text-primary hover:text-white"
                   title="Clear chat"
                 >
                   <TrashIcon className="w-5 h-5" />
@@ -310,7 +310,7 @@ export function AiAssistant() {
                   preserveScrollRef.current = true;
                   setIsExpanded(!isExpanded);
                 }}
-                className="text-gray-300 hover:text-white"
+                className="text-text-primary hover:text-white"
                 title={isExpanded ? 'Minimize' : 'Expand'}
               >
                 {isExpanded ? (
@@ -324,7 +324,7 @@ export function AiAssistant() {
                   setIsOpen(false); 
                   setIsExpanded(false); 
                 }}
-                className="text-gray-300 hover:text-white"
+                className="text-text-primary hover:text-white"
               >
                 <MinusIcon className="w-5 h-5" />
               </button>
@@ -334,14 +334,14 @@ export function AiAssistant() {
           <ChatWindow />
 
           {isExpanded && suggestedQuestions.length > 0 && messages.length === 0 && (
-            <div className="px-3 pb-2 border-t border-gray-800">
-              <p className="text-xs text-gray-500 mb-2">Try asking about:</p>
+            <div className="px-3 pb-2 border-t border-surface">
+              <p className="text-xs text-text-muted mb-2">Try asking about:</p>
               <div className="flex flex-wrap gap-2">
                 {suggestedQuestions.map((q, i) => (
                   <button
                     key={i}
                     onClick={() => sendQuestion(q)}
-                    className="text-xs px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-full border border-gray-700 hover:border-purple-500 transition-colors"
+                    className="text-xs px-3 py-1.5 bg-surface hover:bg-surface/80 text-text-primary hover:text-white rounded-full border border-border hover:border-highlight transition-colors"
                   >
                     {q}
                   </button>
@@ -350,20 +350,20 @@ export function AiAssistant() {
             </div>
           )}
 
-          <form id="ai-chat-form" onSubmit={handleSubmit} className="p-3 border-t border-gray-700">
+          <form id="ai-chat-form" onSubmit={handleSubmit} className="p-3 border-t border-border">
             <div className="flex gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about cards..."
-                className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="flex-1 px-3 py-2 bg-input-bg border border-border rounded-lg text-sm text-white placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="px-3 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white rounded-lg text-sm transition-colors"
+                className="px-3 py-2 bg-primary hover:bg-primary-hover disabled:bg-surface/50 text-white rounded-lg text-sm transition-colors"
               >
                 Send
               </button>

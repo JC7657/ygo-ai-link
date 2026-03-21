@@ -16,7 +16,7 @@ export function CardImage({ card, size = 'small', priority = false }: CardImageP
   const fallbackUrl = getCardImageUrl(card.id, 'small');
 
   return (
-    <div className="relative aspect-[2/3] overflow-hidden rounded-md bg-gray-800">
+    <div className="relative aspect-[2/3] overflow-hidden rounded-md bg-surface">
       <Image
         src={imageUrl}
         alt={card.name}
@@ -45,9 +45,9 @@ export function CardListItem({ card }: CardListItemProps) {
   return (
     <Link 
       href={`/cards/${card.id}`} 
-      className="flex gap-4 p-3 bg-gray-800/50 hover:bg-gray-800 rounded-lg transition-colors"
+      className="flex gap-4 p-3 bg-surface/50 hover:bg-surface rounded-lg transition-colors"
     >
-      <div className="relative w-24 h-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-800">
+      <div className="relative w-24 h-32 flex-shrink-0 overflow-hidden rounded-md bg-surface">
         <Image
           src={imageUrl}
           alt={card.name}
@@ -75,7 +75,7 @@ export function CardListItem({ card }: CardListItemProps) {
         </div>
         
         {card.archetype && (
-          <p className="text-sm text-purple-400 mt-1">{card.archetype}</p>
+          <p className="text-sm text-highlight mt-1">{card.archetype}</p>
         )}
         
         {card.description && (

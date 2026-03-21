@@ -16,8 +16,8 @@ function OperatorToggle({ value, onChange }: { value?: 'and' | 'or', onChange: (
         onClick={() => onChange('or')}
         className={`px-2 py-0.5 text-xs rounded transition-colors ${
           (value === 'or' || !value)
-            ? 'bg-[#9b2cb7] text-white'
-            : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+            ? 'bg-primary text-white'
+            : 'bg-surface/70 text-text-muted hover:bg-surface'
         }`}
       >
         Any
@@ -26,8 +26,8 @@ function OperatorToggle({ value, onChange }: { value?: 'and' | 'or', onChange: (
         onClick={() => onChange('and')}
         className={`px-2 py-0.5 text-xs rounded transition-colors ${
           value === 'and'
-            ? 'bg-[#9b2cb7] text-white'
-            : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+            ? 'bg-primary text-white'
+            : 'bg-surface/70 text-text-muted hover:bg-surface'
         }`}
       >
         All
@@ -55,19 +55,19 @@ function ArrayFilterSection({
 }) {
   const colorClasses = {
     blue: {
-      selected: 'bg-[#9b2cb7] text-white',
-      unselected: 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+      selected: 'bg-primary text-white',
+      unselected: 'bg-surface/70 text-text-primary hover:bg-surface'
     },
     purple: {
-      selected: 'bg-purple-600 text-white',
-      unselected: 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+      selected: 'bg-primary text-white',
+      unselected: 'bg-surface/70 text-text-primary hover:bg-surface'
     }
   };
 
   return (
     <div>
       <div className="flex items-center mb-2">
-        <label className="block text-sm font-medium text-gray-300">{label}</label>
+        <label className="block text-sm font-medium text-text-primary">{label}</label>
         {selected && selected.length > 1 && (
           <OperatorToggle value={operator} onChange={onOperatorChange} />
         )}
@@ -121,7 +121,7 @@ export function FilterPanel({ filters, onFiltersChange, onClear }: FilterPanelPr
     <div className="mb-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+        className="flex items-center gap-2 px-4 py-2 bg-surface hover:bg-surface/80 rounded-lg transition-colors"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
@@ -138,7 +138,7 @@ export function FilterPanel({ filters, onFiltersChange, onClear }: FilterPanelPr
       </button>
 
       {isOpen && (
-        <div className="mt-4 p-4 bg-gray-800 rounded-lg space-y-4">
+        <div className="mt-4 p-4 bg-surface rounded-lg space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <ArrayFilterSection
               label="Attribute"
@@ -160,113 +160,113 @@ export function FilterPanel({ filters, onFiltersChange, onClear }: FilterPanelPr
             />
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">ATK Range</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">ATK Range</label>
               <div className="flex gap-2">
                 <input
                   type="number"
                   placeholder="Min"
                   value={filters.atk_min ?? ''}
                   onChange={(e) => handleNumberChange('atk_min', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={filters.atk_max ?? ''}
                   onChange={(e) => handleNumberChange('atk_max', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">DEF Range</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">DEF Range</label>
               <div className="flex gap-2">
                 <input
                   type="number"
                   placeholder="Min"
                   value={filters.def_min ?? ''}
                   onChange={(e) => handleNumberChange('def_min', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={filters.def_max ?? ''}
                   onChange={(e) => handleNumberChange('def_max', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Level/Rank Range</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">Level/Rank Range</label>
               <div className="flex gap-2">
                 <input
                   type="number"
                   placeholder="Min"
                   value={filters.level_min ?? ''}
                   onChange={(e) => handleNumberChange('level_min', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={filters.level_max ?? ''}
                   onChange={(e) => handleNumberChange('level_max', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Link Rating Range</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">Link Rating Range</label>
               <div className="flex gap-2">
                 <input
                   type="number"
                   placeholder="Min"
                   value={filters.linkval_min ?? ''}
                   onChange={(e) => handleNumberChange('linkval_min', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={filters.linkval_max ?? ''}
                   onChange={(e) => handleNumberChange('linkval_max', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Pendulum Scale Range</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">Pendulum Scale Range</label>
               <div className="flex gap-2">
                 <input
                   type="number"
                   placeholder="Min"
                   value={filters.scale_min ?? ''}
                   onChange={(e) => handleNumberChange('scale_min', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={filters.scale_max ?? ''}
                   onChange={(e) => handleNumberChange('scale_max', e.target.value)}
-                  className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white"
+                  className="w-full px-2 py-1 bg-surface/70 border border-border rounded text-sm text-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Archetype</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">Archetype</label>
               <input
                 type="text"
                 placeholder="Search archetype..."
                 value={filters.archetype ?? ''}
                 onChange={(e) => onFiltersChange({ ...filters, archetype: e.target.value || undefined })}
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white placeholder-gray-500"
+                className="w-full px-3 py-2 bg-surface/70 border border-border rounded-lg text-sm text-white placeholder:text-text-muted"
               />
             </div>
 
@@ -282,7 +282,7 @@ export function FilterPanel({ filters, onFiltersChange, onClear }: FilterPanelPr
           </div>
 
           {activeFilterCount > 0 && (
-            <div className="flex justify-end pt-2 border-t border-gray-700">
+            <div className="flex justify-end pt-2 border-t border-border">
               <button
                 onClick={onClear}
                 className="px-4 py-2 text-sm text-red-400 hover:text-red-300 transition-colors"

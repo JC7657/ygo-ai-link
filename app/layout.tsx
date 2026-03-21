@@ -41,7 +41,7 @@ export default function RootLayout({
               </nav>
             </div>
           </header>
-          <main className="max-w-6xl mt-6 mx-auto px-6 pt-6 pb-8 bg-[#322947] min-h-[calc(100vh-100px)] rounded-t-2xl">
+          <main className="max-w-6xl mt-6 mx-auto px-6 pt-6 pb-8 bg-surface-elevated min-h-[calc(100vh-100px)] rounded-t-2xl">
             {children}
           </main>
           <AiAssistant />

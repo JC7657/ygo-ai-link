@@ -26,12 +26,12 @@ export function SearchBar({ onSearch, initialValue = '', initialType = 'name' }:
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search cards..."
-        className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#9b2cb7]"
+        className="flex-1 px-4 py-2 bg-input-bg border border-border rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
       />
       <select
         value={searchType}
         onChange={(e) => setSearchType(e.target.value as SearchType)}
-        className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#9b2cb7]"
+        className="px-3 py-2 bg-input-bg border border-border rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
       >
         <option value="name">Name</option>
         <option value="description">Card text</option>
@@ -39,7 +39,7 @@ export function SearchBar({ onSearch, initialValue = '', initialType = 'name' }:
       </select>
       <button
         type="submit"
-        className="px-4 py-2 bg-[#9b2cb7] hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+        className="px-4 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
       >
         Search
       </button>

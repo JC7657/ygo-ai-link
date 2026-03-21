@@ -7,11 +7,33 @@
   --purple-secondary: #a855f7;
   --purple-glow: rgba(147, 51, 234, 0.3);
   --purple-dark: #581c87;
+
+  /* Semantic Color Palette */
+  --color-primary: #9b2cb7;
+  --color-primary-hover: #7b22a3;
+  --color-highlight: #a855f7;
+  --color-secondary: #581c87;
+  --color-surface: #1f1f2e;
+  --color-surface-elevated: #322947;
+  --color-border: #3f3f5a;
+  --color-text-primary: #e0e0e0;
+  --color-text-muted: #9ca3af;
+  --color-input-bg: #26263a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-highlight: var(--color-highlight);
+  --color-secondary: var(--color-secondary);
+  --color-surface: var(--color-surface);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-border: var(--color-border);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-muted: var(--color-text-muted);
+  --color-input-bg: var(--color-input-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
