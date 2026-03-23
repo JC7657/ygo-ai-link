@@ -341,7 +341,7 @@ export function AiAssistant() {
                   <button
                     key={i}
                     onClick={() => sendQuestion(q)}
-                    className="text-xs px-3 py-1.5 bg-surface hover:bg-surface/80 text-text-primary hover:text-white rounded-full border border-border hover:border-highlight transition-colors"
+                    className="text-xs px-3 py-1.5 bg-surface hover:bg-surface/80 text-text-primary hover:text-white rounded-full border border-border hover:border-highlight transition-colors cursor-pointer"
                   >
                     {q}
                   </button>
@@ -363,7 +363,7 @@ export function AiAssistant() {
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="px-3 py-2 bg-primary hover:bg-primary-hover disabled:bg-surface/50 text-white rounded-lg text-sm transition-colors"
+                className="px-3 py-2 bg-primary hover:bg-primary-hover disabled:bg-surface/50 text-white rounded-lg text-sm transition-colors cursor-pointer"
               >
                 Send
               </button>

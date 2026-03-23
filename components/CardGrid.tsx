@@ -45,7 +45,7 @@ export function CardListItem({ card }: CardListItemProps) {
   return (
     <Link 
       href={`/cards/${card.id}`} 
-      className="flex gap-4 p-3 bg-surface/50 hover:bg-surface rounded-lg transition-colors"
+      className="flex gap-4 p-3 bg-surface/50 hover:bg-surface rounded-lg transition-colors cursor-pointer"
     >
       <div className="relative w-24 h-32 flex-shrink-0 overflow-hidden rounded-md bg-surface">
         <Image

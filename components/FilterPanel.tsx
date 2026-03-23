@@ -14,7 +14,7 @@ function OperatorToggle({ value, onChange }: { value?: 'and' | 'or', onChange: (
     <div className="flex gap-1 ml-auto">
       <button
         onClick={() => onChange('or')}
-        className={`px-2 py-0.5 text-xs rounded transition-colors ${
+        className={`px-2 py-0.5 text-xs rounded transition-colors cursor-pointer ${
           (value === 'or' || !value)
             ? 'bg-primary text-white'
             : 'bg-surface/70 text-text-muted hover:bg-surface'
@@ -24,7 +24,7 @@ function OperatorToggle({ value, onChange }: { value?: 'and' | 'or', onChange: (
       </button>
       <button
         onClick={() => onChange('and')}
-        className={`px-2 py-0.5 text-xs rounded transition-colors ${
+        className={`px-2 py-0.5 text-xs rounded transition-colors cursor-pointer ${
           value === 'and'
             ? 'bg-primary text-white'
             : 'bg-surface/70 text-text-muted hover:bg-surface'
@@ -77,7 +77,7 @@ function ArrayFilterSection({
           <button
             key={opt}
             onClick={() => onToggle(opt)}
-            className={`px-2 py-1 text-xs rounded transition-colors ${
+            className={`px-2 py-1 text-xs rounded transition-colors cursor-pointer ${
               selected?.includes(opt)
                 ? colorClasses[color].selected
                 : colorClasses[color].unselected
@@ -121,7 +121,7 @@ export function FilterPanel({ filters, onFiltersChange, onClear }: FilterPanelPr
     <div className="mb-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-surface hover:bg-surface/80 rounded-lg transition-colors"
+        className="flex items-center gap-2 px-4 py-2 bg-surface hover:bg-surface/80 rounded-lg transition-colors cursor-pointer"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />

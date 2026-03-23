@@ -166,7 +166,7 @@ function HomeContent() {
             <div className="flex gap-1 ml-2">
               <button
                 onClick={() => handleViewChange('grid')}
-                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-primary text-white' : 'bg-surface text-text-muted hover:text-white'}`}
+                className={`p-2 rounded-lg transition-colors cursor-pointer ${view === 'grid' ? 'bg-primary text-white' : 'bg-surface text-text-muted hover:text-white'}`}
                 title="Grid view"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -175,7 +175,7 @@ function HomeContent() {
               </button>
               <button
                 onClick={() => handleViewChange('list')}
-                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-primary text-white' : 'bg-surface text-text-muted hover:text-white'}`}
+                className={`p-2 rounded-lg transition-colors cursor-pointer ${view === 'list' ? 'bg-primary text-white' : 'bg-surface text-text-muted hover:text-white'}`}
                 title="List view"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -218,14 +218,14 @@ function HomeContent() {
                 <button
                   onClick={() => handlePageChange(1)}
                   disabled={page === 1}
-                  className="px-3 py-1.5 bg-gray-800 disabled:opacity-50 rounded-lg hover:bg-gray-700 transition-colors text-sm"
+                  className="px-3 py-1.5 bg-gray-800 disabled:opacity-50 rounded-lg hover:bg-gray-700 transition-colors text-sm cursor-pointer"
                 >
                   First
                 </button>
                 <button
                   onClick={() => handlePageChange(page - 1)}
                   disabled={page === 1}
-                  className="px-4 py-1.5 bg-gray-800 disabled:opacity-50 rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-4 py-1.5 bg-gray-800 disabled:opacity-50 rounded-lg hover:bg-gray-700 transition-colors cursor-pointer"
                 >
                   Previous
                 </button>
@@ -246,10 +246,10 @@ function HomeContent() {
                     <button
                       key={pageNum}
                       onClick={() => handlePageChange(pageNum)}
-                      className={`px-3 py-1.5 rounded-lg transition-colors ${
+                      className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
                         page === pageNum
                           ? 'bg-primary text-white'
-                          : 'bg-surface hover:bg-surface/80'
+                          : 'bg-surface hover:bg-surface/80 cursor-pointer'
                       }`}
                     >
                       {pageNum}
@@ -260,14 +260,14 @@ function HomeContent() {
                 <button
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages}
-                  className="px-4 py-1.5 bg-gray-800 disabled:opacity-50 rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-4 py-1.5 bg-gray-800 disabled:opacity-50 rounded-lg hover:bg-gray-700 transition-colors cursor-pointer"
                 >
                   Next
                 </button>
                 <button
                   onClick={() => handlePageChange(totalPages)}
                   disabled={page === totalPages}
-                  className="px-3 py-1.5 bg-gray-800 disabled:opacity-50 rounded-lg hover:bg-gray-700 transition-colors text-sm"
+                  className="px-3 py-1.5 bg-gray-800 disabled:opacity-50 rounded-lg hover:bg-gray-700 transition-colors text-sm cursor-pointer"
                 >
                   Last
                 </button>
