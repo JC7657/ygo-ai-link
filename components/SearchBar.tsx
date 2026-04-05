@@ -20,7 +20,7 @@ export function SearchBar({ onSearch, initialValue = '', initialType = 'name' }:
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md gap-2">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row w-full max-w-md gap-2">
       <input
         type="text"
         value={query}

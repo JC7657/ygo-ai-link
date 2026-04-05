@@ -264,14 +264,14 @@ export function AiAssistant() {
     </div>
   );
 
-  const baseWidth = isExpanded ? 'w-[600px]' : 'w-80';
-  const baseHeight = isExpanded ? 'h-[700px]' : 'h-96';
+  const baseWidth = isExpanded ? 'lg:w-[600px] w-full' : 'lg:w-80 w-full';
+  const baseHeight = isExpanded ? 'lg:h-[700px] h-full' : 'lg:h-96 h-full';
 
   return (
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 hover:scale-110 transition-transform z-40"
+        className="fixed bottom-6 right-6 w-12 h-12 md:w-14 md:h-14 hover:scale-110 transition-transform z-40"
         aria-label="Open AI Assistant"
       >
         <Image
@@ -283,8 +283,8 @@ export function AiAssistant() {
       </button>
 
       <div
-        className={`fixed bottom-24 right-6 ${baseWidth} ${baseHeight} bg-surface border border-border rounded-xl shadow-2xl flex flex-col z-50 transition-all duration-300 ease-out ${
-          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        className={`fixed inset-0 md:inset-auto md:bottom-24 md:right-6 ${baseWidth} ${baseHeight} bg-surface border border-border md:rounded-xl shadow-2xl flex flex-col z-50 transition-all duration-300 ease-out ${
+          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}
       >
           <div className="flex items-center justify-between px-4 py-3 border-b border-border rounded-t-xl bg-gradient-to-r from-pink-600 to-purple-700">
@@ -310,7 +310,7 @@ export function AiAssistant() {
                   preserveScrollRef.current = true;
                   setIsExpanded(!isExpanded);
                 }}
-                className="text-text-primary hover:text-white"
+                className="hidden md:block text-text-primary hover:text-white"
                 title={isExpanded ? 'Minimize' : 'Expand'}
               >
                 {isExpanded ? (
