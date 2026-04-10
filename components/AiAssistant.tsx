@@ -236,7 +236,9 @@ export function AiAssistant() {
         <div key={message.id} className="space-y-1">
           <div
             className={`${
-              message.role === 'user' ? 'ml-auto bg-primary' : 'mr-auto bg-surface'
+              message.role === 'user' 
+                ? 'ml-auto bg-primary' 
+                : 'mr-auto bg-gradient-to-br from-[#1e1e4e] to-[#2a2a5e] border border-primary/30'
             } max-w-[85%] rounded-lg px-3 py-2 text-sm text-white ${
               message.role === 'assistant' && isLongContent(message.content) && !isExpanded && !expandedMessages.has(message.id)
                 ? 'line-clamp-6'
